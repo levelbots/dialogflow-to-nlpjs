@@ -1,20 +1,35 @@
+# What is this?
+Gets dialogflow content and generates a NLP.js model that replicates its functionality.
+
 # Commands
 
-1. ``node index.js train``
+```sh
+npx dialogflow-to-nlpjs train
+npx dialogflow-to-nlpjs test
+npx dialogflow-to-nlpjs expose
+```
+# How to use
 
-Gets dialogflow content and generates a NLP.js model that replicates its functionality. You need to export your Dialogflow service account as environment variable:
+## Train
+
+Create a Dialogflow credential key and rename it as `credentials.json` or export it as environment variable:
 
 ```sh
-DIALOGFLOW_CREDENTIALS=my_json_credentials.json node index.js train
+DIALOGFLOW_CREDENTIALS=my_json_credentials.json npx dialogflow-to-nlpjs train
 ```
+Note: You have to run this command with the file in the same folder
 
 At the end, you will have a ``dialogflow_model.nlp`` on ``model`` folder.
 
-2. ``node index.js use "text example"``
+## Use
 
-Uses your model to transform your text to intent.
+`npx dialogflow-to-nlpjs use "text example"`
 
-3. ``node index.js test``
+Gets analysis info of your text
+
+## Test
+
+`npx dialogflow-to-nlpjs test`
 
 Allows to test a conversation using your model. Example:
 
@@ -33,7 +48,9 @@ Result:
 - [score]: 1.
 ```
 
-4. ``node index.js expose``
+## Expose
+
+`npx dialogflow-to-nlpjs expose`
 
 Exposes the model as REST API.
 

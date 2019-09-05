@@ -5,7 +5,7 @@ const GCP_SCOPES = [
     'https://www.googleapis.com/auth/dialogflow'
 ];
 
-const agentsCredentials = process.env.DIALOGFLOW_CREDENTIALS ? require(process.env.DIALOGFLOW_CREDENTIALS) : require('../credentials.json');
+const agentsCredentials = process.env.DIALOGFLOW_CREDENTIALS ? require(`../${process.env.DIALOGFLOW_CREDENTIALS}`) : require('../credentials.json');
 const projectId = agentsCredentials.project_id;
 
 const jwtClient = new google.auth.JWT(agentsCredentials.client_email, null, agentsCredentials.private_key, GCP_SCOPES);
@@ -21,6 +21,7 @@ const sessionClient = dialogflowClient.projects.agent.sessions;
 const getIntentsList = () => {
     return new Promise((resolve, reject) => {
         intentsClient.list({
+            languageCode: 'es',
             parent: `projects/${projectId}/agent`,
             intentView:'INTENT_VIEW_FULL'
         }).then(dialogflowIntents => {
@@ -48,17 +49,24 @@ const intentToDM = dialogflowIntent => {
     };
 
     dm.intent = dialogflowIntent.displayName;
-    dialogflowIntent.trainingPhrases.forEach(phrase => {
-        let text = '';
+    if (dialogflowIntent.trainingPhrases) {
+        dialogflowIntent.trainingPhrases.forEach(phrase => {
+            let text = '';
 
-        phrase.parts.forEach(part => {
-            text += part.text;
+            phrase.parts.forEach(part => {
+                text += part.text;
+            });
+
+            dm.trainingPhrases.push(text);
         });
+    }
 
-        dm.trainingPhrases.push(text);
-    });
-
-    if (dialogflowIntent.messages[0].text.text) dm.responses = dialogflowIntent.messages[0].text.text;
+    if (Array.isArray(dialogflowIntent.messages) && 
+        dialogflowIntent.messages[0] &&
+        dialogflowIntent.messages[0].text &&
+        dialogflowIntent.messages[0].text.text) {
+            dm.responses = dialogflowIntent.messages[0].text.text;
+        } 
 
     return dm;
 }
