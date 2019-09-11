@@ -1,6 +1,6 @@
 {
   "name": "dialogflow-to-nlpjs",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Tool to export DialogFlow data to nlp.js",
   "main": "index.js",
   "bin": {
