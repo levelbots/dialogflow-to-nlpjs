@@ -4,7 +4,7 @@ const fs = require('fs');
 const { NlpManager } = require('node-nlp');
 const manager = new NlpManager({ languages: ['es'] });
 
-const NLP_MODEL_PATH = __dirname + '/../model/dialogflow_model.nlp';
+const NLP_MODEL_PATH = `${process.cwd()}/dialogflow_model.nlp`;
 
 if (!fs.existsSync(NLP_MODEL_PATH)) {
     console.info('NLP.js model doesn\'t exist. Please train the system before.');

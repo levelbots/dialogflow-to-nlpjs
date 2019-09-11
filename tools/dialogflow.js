@@ -29,7 +29,7 @@ const getIntentsList = () => {
         }).then(dialogflowIntents => {
             const intents = dialogflowIntents.data.intents;
             resolve(intents);
-        });
+        }).catch(err => console.error(err));
     });
 }
 
