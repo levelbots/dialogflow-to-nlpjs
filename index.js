@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const nlpjs = require('./tools/nlp.js');
 
 const readline = require('readline').createInterface({

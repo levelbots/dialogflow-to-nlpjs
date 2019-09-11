@@ -5,7 +5,9 @@ const GCP_SCOPES = [
     'https://www.googleapis.com/auth/dialogflow'
 ];
 
-const agentsCredentials = process.env.DIALOGFLOW_CREDENTIALS ? require(`../${process.env.DIALOGFLOW_CREDENTIALS}`) : require('../credentials.json');
+const agentsCredentials = process.env.DIALOGFLOW_CREDENTIALS ?
+    require(`${process.cwd()}/${process.env.DIALOGFLOW_CREDENTIALS}`) :
+    require(`${process.cwd()}/credentials.json`);
 const projectId = agentsCredentials.project_id;
 
 const jwtClient = new google.auth.JWT(agentsCredentials.client_email, null, agentsCredentials.private_key, GCP_SCOPES);
@@ -27,7 +29,7 @@ const getIntentsList = () => {
         }).then(dialogflowIntents => {
             const intents = dialogflowIntents.data.intents;
             resolve(intents);
-        });
+        }).catch(err => console.error(err));
     });
 }
 
