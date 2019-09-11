@@ -6,8 +6,8 @@ const GCP_SCOPES = [
 ];
 
 const agentsCredentials = process.env.DIALOGFLOW_CREDENTIALS ?
-    require(`${__dirname}/../${process.env.DIALOGFLOW_CREDENTIALS}`) :
-    require(`${__dirname}/../credentials.json`);
+    require(`${process.cwd()}/${process.env.DIALOGFLOW_CREDENTIALS}`) :
+    require(`${process.cwd()}/credentials.json`);
 const projectId = agentsCredentials.project_id;
 
 const jwtClient = new google.auth.JWT(agentsCredentials.client_email, null, agentsCredentials.private_key, GCP_SCOPES);
